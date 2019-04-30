@@ -57,6 +57,7 @@ namespace BunnyCDN.Api.Tests
             new object[] { "B065F65F-2150-e045-d9E7-286C7dF5BBAD27Ab607c-ecf8-A27d-FD03-2DdCFC1bC3A6" },
         };
         public static IEnumerable<object[]> invalidAccountKeys => new List<object[]> {
+            new object[] { null }, 
             new object[] { "1234567-1234-1234-1234-12345678901234567890-1234-1234-1234-123456789012" },
             new object[] { "12345678-123-1234-1234-12345678901234567890-1234-1234-1234-123456789012" },
             new object[] { "12345678-1234-123-1234-12345678901234567890-1234-1234-1234-123456789012" },
@@ -81,6 +82,7 @@ namespace BunnyCDN.Api.Tests
             new object[] { "da80F7D1-EE1A-Cbff-dcb71DDfbc45-CC9a-B4fE" },
         };
         public static IEnumerable<object[]> invalidStorageKeys => new List<object[]> {
+            new object[] { null }, 
             new object[] { "1234567-1234-1234-12356789012-1234-1234" },
             new object[] { "12345678-123-1234-12356789012-1234-1234" },
             new object[] { "12345678-1234-123-12356789012-1234-1234" },

@@ -69,7 +69,7 @@ namespace BunnyCDN.Api
         /// <param name="apiKey">API Token</param>
         public AccountKey(string apiKey) : base(apiKey)
         {
-            if (!Regexes.AccountToken.IsMatch(apiKey))
+            if (string.IsNullOrWhiteSpace(apiKey) || !Regexes.AccountToken.IsMatch(apiKey))
                 throw new BunnyTokenException("Account token is invalid!", apiKey);
         }
     }
@@ -88,7 +88,7 @@ namespace BunnyCDN.Api
         /// <param name="apiKey">API Token</param>
         public StorageKey(string apiKey) : base(apiKey)
         {
-            if (!Regexes.StorageToken.IsMatch(apiKey))
+            if (string.IsNullOrWhiteSpace(apiKey) || !Regexes.StorageToken.IsMatch(apiKey))
                 throw new BunnyTokenException("Storage token is invalid!", apiKey);
         }
     }
