@@ -50,7 +50,8 @@ namespace BunnyCDN.Api
         /// </summary>
         public void Dispose()
         {
-            Client.Dispose();
+            if (Client != null)
+                Client.Dispose();
             Token = null;
         }
     }
