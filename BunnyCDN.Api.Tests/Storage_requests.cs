@@ -16,19 +16,12 @@ namespace BunnyCDN.Api.Tests
         private readonly Storage storage;
         public Storage_requests()
         {
-            MockHttpMessageHandler mockHttp = new MockHttpMessageHandler();
+            MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
             mockHttp.When(HttpMethod.Get, "*/testing/testfile").Respond("application/octet-stream", "Yep, this is the testfile");
             mockHttp.When(HttpMethod.Put, "*/testing/testfile").Respond(HttpStatusCode.Created);
             mockHttp.When(HttpMethod.Delete, "*/testing/testfile").Respond(HttpStatusCode.OK);
 
             mockHttp.When(HttpMethod.Get, "*/testing/testfolder/").Respond("application/json", JsonConvert.SerializeObject(FolderStorageEntries));
-
-
-            mockHttp.When("*/throwunauthorized*").Respond(HttpStatusCode.Unauthorized);
-            mockHttp.When("*/throwbadrequest*").Respond(HttpStatusCode.BadRequest, "application/json", JsonConvert.SerializeObject(BadRequestError));
-            mockHttp.When("*/throwinvalidbadrequest*").Respond(HttpStatusCode.BadRequest, "application/json", "");
-            mockHttp.When("*/throwinvalidbadrequest1*").Respond(HttpStatusCode.BadRequest, "application/json", "{}");
-            mockHttp.When("*/thrownotfound*").Respond(HttpStatusCode.NotFound);
 
 
             StorageKey sKey = new StorageKey();
@@ -84,7 +77,7 @@ namespace BunnyCDN.Api.Tests
         {
             BunnyBadRequestException exception = await Assert.ThrowsAsync<BunnyBadRequestException>( async() => {await storage.GetFolder("throwbadrequest");} );
 
-            Assert.Equal(BadRequestError.Message, exception.Message);
+            Assert.Equal(MockTools.BadRequestError.Message, exception.Message);
         }
 
         [Theory]
@@ -140,7 +133,6 @@ namespace BunnyCDN.Api.Tests
         }
 
 
-        private static readonly ErrorMessage BadRequestError = new ErrorMessage() { HttpCode = 400, Message = "Specific error message." }; 
         private static readonly Guid UserGuid = Guid.Parse("27f8f894-d397-4adb-88ee-b56b84c4f66b");
         private static readonly StorageEntry[] FolderStorageEntries = new StorageEntry[] {
             new StorageEntry() {
