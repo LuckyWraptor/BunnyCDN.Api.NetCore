@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace BunnyCDN.Api
 {
@@ -70,6 +71,79 @@ namespace BunnyCDN.Api
         public BillingType Type { get; set; }
     }
 
+    public class ErrorMessage
+    {
+        /// <summary>
+        /// Http StatusCode (Always the same as the HTTP response StatusCode)
+        /// </summary>
+        public int HttpCode { get; set; }
+        /// <summary>
+        /// Error message
+        /// </summary>
+        public string Message { get; set; }
+    }
+
+    public class StatisticSummary
+    {
+        /// <summary>
+        /// Total bandwidth used
+        /// </summary>
+        public long TotalBandwidthUsed { get; set; }
+        /// <summary>
+        /// Total reqests served
+        /// </summary>
+        public long TotalRequestsServed { get; set; }
+        /// <summary>
+        /// Current cache hit-rate
+        /// </summary>
+        public double CacheHitRate { get; set; }
+        /// <summary>
+        /// Total bandwidth usage with timestamps
+        /// </summary>
+        public Dictionary<DateTime, long> BandwidthUsedChart { get; set; }
+        /// <summary>
+        /// Cached bandwidth usage with timestamps
+        /// </summary>
+        public Dictionary<DateTime, long> BandwidthCachedChart { get; set; }
+        /// <summary>
+        /// Cache hit-rates with timestamps
+        /// </summary>
+        public Dictionary<DateTime, double> CacheHitRateChart { get; set; }
+        /// <summary>
+        /// Request serve count with timestamps
+        /// </summary>
+        public Dictionary<DateTime, long> RequestsServedChart { get; set; }
+        /// <summary>
+        /// Pull request count with timestamps
+        /// </summary>
+
+        public Dictionary<DateTime, long> PullRequestsPulledChart { get; set; }
+        /// <summary>
+        /// User balance with timestamps
+        /// </summary>
+        public Dictionary<DateTime, double> UserBalanceHistoryChart { get; set; }
+        /// <summary>
+        /// User storage usage with timestamps
+        /// </summary>
+        public Dictionary<DateTime, long> UserStorageUsedChart { get; set; }
+        /// <summary>
+        /// Geographical bandwidth usage within timespan (or last 30 days if unset)
+        /// </summary>
+        public Dictionary<string, long> GeoTrafficDistribution { get; set; }
+        /// <summary>
+        /// HTTP 3xx error count with timestamps
+        /// </summary>
+        public Dictionary<DateTime, long> Error3xxChart { get; set; }
+        /// <summary>
+        /// HTTP 4xx error count with timestamps
+        /// </summary>
+        public Dictionary<DateTime, long> Error4xxChart { get; set; }
+        /// <summary>
+        /// HTTP 5xx error count with timestamps
+        /// </summary>
+        public Dictionary<DateTime, long> Error5xxChart { get; set; }
+    }
+
     public class StorageEntry
     {
         /// <summary>
@@ -122,17 +196,5 @@ namespace BunnyCDN.Api
         /// Storage zone identification number
         /// </summary>
         public long StorageZoneId { get; set; }
-    }
-
-    public class ErrorMessage
-    {
-        /// <summary>
-        /// Http StatusCode (Always the same as the HTTP response StatusCode)
-        /// </summary>
-        public int HttpCode { get; set; }
-        /// <summary>
-        /// Error message
-        /// </summary>
-        public string Message { get; set; }
     }
 }
