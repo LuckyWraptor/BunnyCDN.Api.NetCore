@@ -117,13 +117,6 @@ namespace BunnyCDN.Api
                     throw new BunnyInvalidResponseException("Unexpected/unhandled response retrieved");
             }
 
-            // Specify UTC for all parsed datetimes.
-            foreach(StorageEntry entry in storageEntries) 
-            {
-                DateTime.SpecifyKind(entry.DateCreated, DateTimeKind.Utc);
-                DateTime.SpecifyKind(entry.LastChanged, DateTimeKind.Utc);
-            }
-
             return storageEntries;
         }
 
