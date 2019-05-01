@@ -99,15 +99,27 @@ namespace BunnyCDN.Api
             {
                 case HttpStatusCode.OK:
                     jsonString = await httpResponse.Content.ReadAsStringAsync();
-                    storageEntries = JsonConvert.DeserializeObject<StorageEntry[]>(jsonString);
-                    if (storageEntries == null)
+
+                    
+                    try {
+                        storageEntries = JsonConvert.DeserializeObject<StorageEntry[]>(jsonString);
+                        if (storageEntries == null)
+                            throw new BunnyInvalidResponseException();
+                    } catch(JsonException) {
                         throw new BunnyInvalidResponseException();
+                    }
                     break;
                 case HttpStatusCode.BadRequest:
                     jsonString = await httpResponse.Content.ReadAsStringAsync();
-                    ErrorMessage error = JsonConvert.DeserializeObject<ErrorMessage>(jsonString);
-                    if (error != null && error.Message != null)
-                        throw new BunnyBadRequestException(error.Message);
+                    
+                    try {
+                        ErrorMessage error = JsonConvert.DeserializeObject<ErrorMessage>(jsonString);
+                        if (error != null && error.Message != null)
+                            throw new BunnyBadRequestException(error.Message);
+                    } catch (JsonException) {
+                        throw new BunnyBadRequestException("Invalid response error provided.");
+                    }
+
                     throw new BunnyBadRequestException("No response error provided.");
                 case HttpStatusCode.Unauthorized:
                     throw new BunnyUnauthorizedException();

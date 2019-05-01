@@ -17,6 +17,9 @@ namespace BunnyCDN.Api.Tests
             mockHttp.When("*/throwbadrequest*").Respond(HttpStatusCode.BadRequest, "application/json", JsonConvert.SerializeObject(BadRequestError));
             mockHttp.When("*/throwinvalidbadrequest*").Respond(HttpStatusCode.BadRequest, "application/json", "");
             mockHttp.When("*/throwinvalidbadrequest1*").Respond(HttpStatusCode.BadRequest, "application/json", "{}");
+            mockHttp.When("*/throwinvalidbadrequest2*").Respond(HttpStatusCode.BadRequest, "application/json", "{}{}");
+            mockHttp.When("*/throwinvalidokjson*").Respond(HttpStatusCode.OK, "application/json", "{}{}");
+            mockHttp.When("*/throwemptyok*").Respond(HttpStatusCode.OK, "application/json", "");
             mockHttp.When("*/thrownotfound*").Respond(HttpStatusCode.NotFound);
 
             return mockHttp;

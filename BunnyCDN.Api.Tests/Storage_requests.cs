@@ -83,11 +83,20 @@ namespace BunnyCDN.Api.Tests
         [Theory]
         [InlineData("throwinvalidbadrequest")]
         [InlineData("throwinvalidbadrequest1")]
+        [InlineData("throwinvalidbadrequest2")]
         public async void Storage_GetFolder_badrequest_invalidResponse(string path)
         {
             BunnyBadRequestException exception = await Assert.ThrowsAsync<BunnyBadRequestException>( async() => {await storage.GetFolder(path);} );
 
             Assert.Equal("No response error provided.", exception.Message);
+        }
+
+        [Theory]
+        [InlineData("/throwemptyok/")]
+        [InlineData("/throwinvalidokjson/")]
+        public async void Storage_GetFolder_invalidResponse(string path)
+        {
+            BunnyInvalidResponseException exception = await Assert.ThrowsAsync<BunnyInvalidResponseException>( async() => {await storage.GetFolder(path);} );
         }
 
 
