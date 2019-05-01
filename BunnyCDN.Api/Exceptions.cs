@@ -49,4 +49,18 @@ namespace BunnyCDN.Api
         /// <returns>A BunnyCDN BadRequest exception</returns>
         public BunnyBadRequestException(string message) : base(message) {}
     }
+    public class BunnyInvalidResponseException : BunnyException
+    {
+        /// <summary>
+        /// Invalid response exception used for invalid JSON returns
+        /// </summary>
+        /// <returns>A BunnyCDN InvalidResponse exception</returns>
+        public BunnyInvalidResponseException() {}
+        /// <summary>
+        /// Invalid response exception used for invalid JSON returns
+        /// </summary>
+        /// <param name="message">Error message for base</param>
+        /// <returns>A BunnyCDN InvalidResponse exception</returns>
+        public BunnyInvalidResponseException(string message) : base(message) {}
+    }
 }
