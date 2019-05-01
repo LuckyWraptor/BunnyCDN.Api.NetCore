@@ -2,6 +2,29 @@ using System;
 
 namespace BunnyCDN.Api
 {
+    public class BillingSummary
+    {
+        public double Balance { get; set; }
+        public double ThisMonthCharges { get; set; }
+        public BillingRecord[] BillingRecords { get; set; }
+        public double MonthlyChargesStorage { get; set; }
+        public double MonthlyChargesEUTraffic { get; set; }
+        public double MonthlyChargesUSTraffic { get; set; }
+        public double MonthlyChargesASIATraffic { get; set; }
+        public double MonthlyChargesSATraffic { get; set; }
+    }
+    public class BillingRecord
+    {
+        public long Id { get; set; }
+        public double Amount { get; set; }
+        public string Payer { get; set; }
+        public string PaymentId { get; set; }
+        public DateTime Timestamp { get { return utcTimestamp; } set { utcTimestamp = DateTime.SpecifyKind(value, DateTimeKind.Utc); } }
+        private DateTime utcTimestamp;
+        public bool InvoiceAvailable { get; set; }
+        public BillingType Type { get; set; }
+    }
+
     public class StorageEntry
     {
         public long FailIndex { get; set; }
@@ -28,7 +51,8 @@ namespace BunnyCDN.Api
         /// <summary>
         /// Object changed timestamp (UTC)
         /// </summary>
-        public DateTime LastChanged { get; set; }
+        public DateTime LastChanged { get { return utcLastChanged; } set { utcLastChanged = DateTime.SpecifyKind(value, DateTimeKind.Utc); } }
+        private DateTime utcLastChanged;
         /// <summary>
         /// Object is directory
         /// </summary>
@@ -44,7 +68,8 @@ namespace BunnyCDN.Api
         /// <summary>
         /// Object creation timestamp (UTC)
         /// </summary>
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get { return utcDateCreated; } set { utcDateCreated = DateTime.SpecifyKind(value, DateTimeKind.Utc); } }
+        private DateTime utcDateCreated;
         /// <summary>
         /// Storage zone identification number
         /// </summary>
