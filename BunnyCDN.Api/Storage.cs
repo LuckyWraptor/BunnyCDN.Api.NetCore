@@ -68,12 +68,13 @@ namespace BunnyCDN.Api
             {
                 case HttpStatusCode.OK:
                     content = await httpResponse.Content.ReadAsByteArrayAsync();
-                break;
+                    break;
                 case HttpStatusCode.Unauthorized:
                     throw new BunnyUnauthorizedException();
-                default:
                 case HttpStatusCode.NotFound:
                     throw new BunnyNotFoundException();
+                default:
+                    throw new BunnyInvalidResponseException("Unexpected/unhandled response retrieved");
             }
             return content;
         }
@@ -99,7 +100,9 @@ namespace BunnyCDN.Api
                 case HttpStatusCode.OK:
                     jsonString = await httpResponse.Content.ReadAsStringAsync();
                     storageEntries = JsonConvert.DeserializeObject<StorageEntry[]>(jsonString);
-                break;
+                    if (storageEntries == null)
+                        throw new BunnyInvalidResponseException();
+                    break;
                 case HttpStatusCode.BadRequest:
                     jsonString = await httpResponse.Content.ReadAsStringAsync();
                     ErrorMessage error = JsonConvert.DeserializeObject<ErrorMessage>(jsonString);
@@ -108,9 +111,10 @@ namespace BunnyCDN.Api
                     throw new BunnyBadRequestException("No response error provided.");
                 case HttpStatusCode.Unauthorized:
                     throw new BunnyUnauthorizedException();
-                default:
                 case HttpStatusCode.NotFound:
                     throw new BunnyNotFoundException();
+                default:
+                    throw new BunnyInvalidResponseException("Unexpected/unhandled response retrieved");
             }
 
             // Specify UTC for all parsed datetimes.
