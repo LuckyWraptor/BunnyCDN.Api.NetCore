@@ -36,11 +36,17 @@ namespace BunnyCDN.Api
         /// Sets the token for the key provider
         /// </summary>
         /// <param name="apiKey">API Token</param>
-        public void SetToken(string apiKey)
+        public void SetToken(string apiKey, HttpMessageHandler httpMessageHandler = null)
         {
             this.Token = apiKey;
             
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient;
+            if (httpMessageHandler != null)
+                httpClient = new HttpClient(httpMessageHandler);
+            else
+                httpClient = new HttpClient();
+
+
             httpClient.DefaultRequestHeaders.Add("AccessKey", this.Token);
             this.Client = httpClient;
         }
