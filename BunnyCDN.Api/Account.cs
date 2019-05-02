@@ -93,6 +93,59 @@ namespace BunnyCDN.Api
         }
 
         /// <summary>
+        /// Retrieves the statistics from the account based of the provided criteria, last month if no datespan was provided
+        /// </summary>
+        public async Task<StatisticSummary> GetStatisticSummary(DateTime? dtFrom = null, DateTime? dtTo = null, long? pullZone = null, long? serverZoneId = null)
+        {
+            Uri requestUri = new Uri( GetPath("statistics") );
+            if (dtFrom.HasValue || dtTo.HasValue)
+            {
+                if ((!dtFrom.HasValue || dtFrom.Value == DateTime.MinValue)
+                || (!dtTo.HasValue || dtTo.Value == DateTime.MinValue))
+                    throw new BunnyBadRequestException("Both 'from' and 'to' dates must be provided");
+
+                if (dtTo < dtFrom)
+                {
+                    // Switch around if not in the correct order.
+                    var dtNewTo = dtFrom;
+                    dtFrom = dtTo;
+                    dtTo = dtNewTo;
+                }
+
+                requestUri = requestUri
+                    .AddParameter("dateFrom", dtFrom.Value.ToString("yyyy-MM-dd"))
+                    .AddParameter("dateTo", dtTo.Value.ToString("yyyy-MM-dd"));
+            }
+
+            if (pullZone.HasValue)
+                requestUri = requestUri.AddParameter("pullZone", pullZone.Value.ToString());
+            if (serverZoneId.HasValue)
+                requestUri = requestUri.AddParameter("serverZoneId", serverZoneId.Value.ToString());
+
+            HttpResponseMessage httpResponse = await this.AccountKey.Client.GetAsync(requestUri.ToString());
+            switch (httpResponse.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    string jsonString = await httpResponse.Content.ReadAsStringAsync();
+
+                    StatisticSummary summary;
+                    try {
+                        summary = JsonConvert.DeserializeObject<StatisticSummary>(jsonString);
+                    } catch (JsonException) {
+                        throw new BunnyInvalidResponseException();
+                    }
+
+                    if (summary == null)
+                        throw new BunnyInvalidResponseException();
+                    return summary;
+                case HttpStatusCode.Unauthorized:
+                    throw new BunnyUnauthorizedException();
+                default:
+                    throw new BunnyInvalidResponseException("Unexpected/unhandled response retrieved");
+            }
+        }
+
+        /// <summary>
         /// Gets a valid API URL string.
         /// </summary>
         /// <param name="path">Input path</param>
