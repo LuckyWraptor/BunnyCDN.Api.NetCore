@@ -86,7 +86,7 @@ namespace BunnyCDN.Api
     public class StatisticSummary
     {
         /// <summary>
-        /// Total bandwidth used
+        /// Total bandwidth used (in bytes).
         /// </summary>
         public long TotalBandwidthUsed { get; set; }
         /// <summary>
@@ -100,11 +100,11 @@ namespace BunnyCDN.Api
         /// <summary>
         /// Total bandwidth usage with timestamps
         /// </summary>
-        public Dictionary<DateTime, long> BandwidthUsedChart { get; set; }
+        public Dictionary<DateTime, double> BandwidthUsedChart { get; set; }
         /// <summary>
         /// Cached bandwidth usage with timestamps
         /// </summary>
-        public Dictionary<DateTime, long> BandwidthCachedChart { get; set; }
+        public Dictionary<DateTime, double> BandwidthCachedChart { get; set; }
         /// <summary>
         /// Cache hit-rates with timestamps
         /// </summary>
@@ -112,12 +112,12 @@ namespace BunnyCDN.Api
         /// <summary>
         /// Request serve count with timestamps
         /// </summary>
-        public Dictionary<DateTime, long> RequestsServedChart { get; set; }
+        public Dictionary<DateTime, double> RequestsServedChart { get; set; }
         /// <summary>
         /// Pull request count with timestamps
         /// </summary>
 
-        public Dictionary<DateTime, long> PullRequestsPulledChart { get; set; }
+        public Dictionary<DateTime, double> PullRequestsPulledChart { get; set; }
         /// <summary>
         /// User balance with timestamps
         /// </summary>
@@ -125,7 +125,7 @@ namespace BunnyCDN.Api
         /// <summary>
         /// User storage usage with timestamps
         /// </summary>
-        public Dictionary<DateTime, long> UserStorageUsedChart { get; set; }
+        public Dictionary<DateTime, double> UserStorageUsedChart { get; set; }
         /// <summary>
         /// Geographical bandwidth usage within timespan (or last 30 days if unset)
         /// </summary>
@@ -133,15 +133,15 @@ namespace BunnyCDN.Api
         /// <summary>
         /// HTTP 3xx error count with timestamps
         /// </summary>
-        public Dictionary<DateTime, long> Error3xxChart { get; set; }
+        public Dictionary<DateTime, double> Error3xxChart { get; set; }
         /// <summary>
         /// HTTP 4xx error count with timestamps
         /// </summary>
-        public Dictionary<DateTime, long> Error4xxChart { get; set; }
+        public Dictionary<DateTime, double> Error4xxChart { get; set; }
         /// <summary>
         /// HTTP 5xx error count with timestamps
         /// </summary>
-        public Dictionary<DateTime, long> Error5xxChart { get; set; }
+        public Dictionary<DateTime, double> Error5xxChart { get; set; }
     }
 
     public class StorageEntry
