@@ -13,7 +13,6 @@ namespace BunnyCDN.Api.Tests
 {
     public class Account_requests_billing
     {
-
         [Fact]
         public async void Account_GetBillingSummary_valid()
         {
@@ -69,6 +68,59 @@ namespace BunnyCDN.Api.Tests
             
             // Act & Arrange
             await Assert.ThrowsAsync<BunnyInvalidResponseException>( async() => { await account.GetBillingSummary(); });
+        }
+
+        [Fact]
+        public async void Account_ApplyCoupon_valid()
+        {
+            // Arrange
+            MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
+            mockHttp.When(HttpMethod.Get, "*/billing/applycode").Respond(HttpStatusCode.OK);
+
+            AccountKey accKey = new AccountKey();
+            accKey.SetToken("17989543-2154-6867-3566-71474693165007735103-0594-4591-2132-259238857481", mockHttp);
+
+            Account account = new Account(accKey);
+
+            // Act & Assert
+            Assert.True(await account.ApplyCoupon("validcoupon"));
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("   ")]
+        public async void Account_ApplyCoupon_invalidInput(string couponCode)
+        {
+            // Arrange
+            MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
+            mockHttp.When(HttpMethod.Get, "*/billing/applycode").Respond(HttpStatusCode.OK);
+
+            AccountKey accKey = new AccountKey();
+            accKey.SetToken("17989543-2154-6867-3566-71474693165007735103-0594-4591-2132-259238857481", mockHttp);
+
+            Account account = new Account(accKey);
+
+            // Act & Assert
+            BunnyBadRequestException exception = await Assert.ThrowsAsync<BunnyBadRequestException>( async() => {await account.ApplyCoupon(couponCode);} );
+
+            Assert.Equal("The presented coupon cannot be empty/null", exception.Message);
+        }
+
+        [Fact]
+        public async void Account_ApplyCoupon_unauthorized()
+        {
+            // Arrange
+            MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
+            mockHttp.When(HttpMethod.Get, "*/billing/applycode").Respond(HttpStatusCode.Unauthorized);
+
+            AccountKey accKey = new AccountKey();
+            accKey.SetToken("17989543-2154-6867-3566-71474693165007735103-0594-4591-2132-259238857481", mockHttp);
+
+            Account account = new Account(accKey);
+
+            // Act & Arrange
+            await Assert.ThrowsAsync<BunnyUnauthorizedException>( async() => { await account.ApplyCoupon("testing"); });
         }
 
         private static BillingSummary CorrectBillingSummary = new BillingSummary() {
