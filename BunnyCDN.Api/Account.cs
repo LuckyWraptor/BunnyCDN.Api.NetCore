@@ -39,7 +39,11 @@ namespace BunnyCDN.Api
 
             this.AccountKey = new AccountKey(accountKey);
         }
-    
+
+        /// <summary>
+        /// Retrieve the billing summary from the account.
+        /// </summary>
+        /// <returns>BillingSummary containing all the returned data, throws upon failure</returns>
         public async Task<BillingSummary> GetBillingSummary()
         {
             HttpResponseMessage httpResponse = await this.AccountKey.Client.GetAsync( GetPath("billing") );
@@ -64,7 +68,30 @@ namespace BunnyCDN.Api
                     throw new BunnyInvalidResponseException("Unexpected/unhandled response retrieved");
             }
         }
-    
+
+        /// <summary>
+        /// Attempts to validate a coupon on your account.
+        /// </summary>
+        /// <param name="couponCode">Coupon code to validate</param>
+        /// <returns>Success state or throws</returns>
+        public async Task<bool> ApplyCoupon(string couponCode)
+        {
+            if (string.IsNullOrWhiteSpace(couponCode))
+                throw new BunnyBadRequestException("The presented coupon cannot be empty/null");
+            couponCode = Uri.EscapeUriString(couponCode);
+
+            HttpResponseMessage httpResponse = await this.AccountKey.Client.GetAsync( GetPath($"billing/applycode?couponCode={couponCode}") );
+            switch (httpResponse.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    return true;
+                case HttpStatusCode.Unauthorized:
+                    throw new BunnyUnauthorizedException();
+                default:
+                    return false;
+            }
+        }
+
         /// <summary>
         /// Gets a valid API URL string.
         /// </summary>
