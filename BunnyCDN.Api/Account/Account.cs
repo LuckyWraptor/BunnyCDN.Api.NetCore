@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using BunnyCDN.Api.Internals;
 
 namespace BunnyCDN.Api
 {
-    public class Account
+    public partial class Account
     {
         /// <summary>
         /// AccountKey, used to retrieve the required HttpClient
@@ -144,6 +145,7 @@ namespace BunnyCDN.Api
                     throw new BunnyInvalidResponseException("Unexpected/unhandled response retrieved");
             }
         }
+
 
         /// <summary>
         /// Gets a valid API URL string.
