@@ -122,6 +122,58 @@ namespace BunnyCDN.Api.Tests
             await Assert.ThrowsAsync<BunnyUnauthorizedException>( async() => {await account.CreateStorageZone("validName");} );
         }
 
+        [Fact]
+        public async void Account_DeleteStorageZone_valid()
+        {
+            // Arrange
+            MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
+            mockHttp.When(HttpMethod.Post, "*/storagezone/123").Respond(HttpStatusCode.OK);
+
+            AccountKey accKey = new AccountKey();
+            accKey.SetToken("17989543-2154-6867-3566-71474693165007735103-0594-4591-2132-259238857481", mockHttp);
+
+            Account account = new Account(accKey);
+
+            // Act & Assert
+            Assert.True(await account.DeleteStorageZone(123));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(-1000)]
+        public async void Account_DeleteStorageZone_invalid(long zoneId)
+        {
+            // Arrange
+            MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
+            mockHttp.When(HttpMethod.Post, "*/storagezone/*").Respond(HttpStatusCode.OK);
+
+            AccountKey accKey = new AccountKey();
+            accKey.SetToken("17989543-2154-6867-3566-71474693165007735103-0594-4591-2132-259238857481", mockHttp);
+
+            Account account = new Account(accKey);
+
+            // Act & Assert
+            BunnyBadRequestException exception = await Assert.ThrowsAsync<BunnyBadRequestException>( async() => {await account.DeleteStorageZone(zoneId);} );
+            Assert.Equal("Zone Id must be higher than 0.", exception.Message);
+        }
+
+        [Fact]
+        public async void Account_DeleteStorageZone_unauthorized()
+        {
+            // Arrange
+            MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
+            mockHttp.When(HttpMethod.Delete, "*/storagezone/123").Respond(HttpStatusCode.Unauthorized);
+
+            AccountKey accKey = new AccountKey();
+            accKey.SetToken("17989543-2154-6867-3566-71474693165007735103-0594-4591-2132-259238857481", mockHttp);
+
+            Account account = new Account(accKey);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<BunnyUnauthorizedException>( async() => {await account.DeleteStorageZone(123);} );
+        }
+
 
         private static StorageZone[] CorrectStorageZones = new StorageZone[] {
             new StorageZone() {
