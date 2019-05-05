@@ -45,8 +45,8 @@ namespace BunnyCDN.Api
         /// Creates a new storage zone.
         /// </summary>
         /// <param name="zoneName">Storage zone name (alphabetical letters, numbers and dashes with 3-20 characters in length)</param>
-        /// <returns></returns>
-        public async Task<bool> CreateStorageZone(string zoneName)
+        /// <returns>The response StorageZone</returns>
+        public async Task<StorageZone> CreateStorageZone(string zoneName)
         {
             if (!Regexes.StorageName.IsMatch(zoneName))
                 throw new BunnyBadRequestException("Name may only contain alphabetical letters, numbers and dashes with a length of 3-20 characters.");
@@ -56,13 +56,42 @@ namespace BunnyCDN.Api
                 HttpResponseMessage httpResponse = await this.AccountKey.Client.PostAsync( GetPath("storagezone"), httpContent );
                 switch(httpResponse.StatusCode)
                 {
-                    case HttpStatusCode.OK:
-                    return true;
+                    case HttpStatusCode.Created:
+                        string jsonString = await httpResponse.Content.ReadAsStringAsync();
+
+                        StorageZone storageZone;
+                        try {
+                            storageZone = JsonConvert.DeserializeObject<StorageZone>(jsonString);
+                        } catch (JsonException) {
+                            throw new BunnyInvalidResponseException();
+                        }
+                        
+                        if (storageZone == null)
+                            throw new BunnyInvalidResponseException();
+                        return storageZone;
                     case HttpStatusCode.Unauthorized:
                         throw new BunnyUnauthorizedException();
                     default:
-                        return false;
+                        return null;
                 }
+            }
+        }
+
+
+        public async Task<bool> DeleteStorageZone(long zoneId)
+        {
+            if (zoneId <= 0)
+                throw new BunnyBadRequestException("Zone Id must be higher than 0.");
+
+            HttpResponseMessage httpResponse = await this.AccountKey.Client.DeleteAsync( GetPath("storagezone/"+ zoneId) );
+            switch(httpResponse.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                return true;
+                case HttpStatusCode.Unauthorized:
+                    throw new BunnyUnauthorizedException();
+                default:
+                    return false;
             }
         }
     }

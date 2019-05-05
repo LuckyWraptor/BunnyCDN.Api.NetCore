@@ -74,7 +74,7 @@ namespace BunnyCDN.Api.Tests
         {
             // Arrange
             MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
-            mockHttp.When(HttpMethod.Post, "*/storagezone").Respond(HttpStatusCode.OK);
+            mockHttp.When(HttpMethod.Post, "*/storagezone").Respond(HttpStatusCode.Created, "application/json", JsonConvert.SerializeObject(CorrectStorageZones[0]));
 
             AccountKey accKey = new AccountKey();
             accKey.SetToken("17989543-2154-6867-3566-71474693165007735103-0594-4591-2132-259238857481", mockHttp);
@@ -82,7 +82,7 @@ namespace BunnyCDN.Api.Tests
             Account account = new Account(accKey);
 
             // Act & Assert
-            Assert.True(await account.CreateStorageZone("validName"));
+            Assert.NotNull(await account.CreateStorageZone("storageName1"));
         }
 
         [Theory]
