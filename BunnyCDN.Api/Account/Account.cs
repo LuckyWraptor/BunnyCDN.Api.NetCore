@@ -96,6 +96,11 @@ namespace BunnyCDN.Api
         /// <summary>
         /// Retrieves the statistics from the account based of the provided criteria, last month if no datespan was provided
         /// </summary>
+        /// <param name="dtFrom">(Optional) From date</param>
+        /// <param name="dtTo">(Optional) To Date</param>
+        /// <param name="pullZone">(Optional) PullZone id</param>
+        /// <param name="serverZoneId">(Optional) ServerZoneId</param>
+        /// <returns>The account's statistic summary</returns>
         public async Task<StatisticSummary> GetStatisticSummary(DateTime? dtFrom = null, DateTime? dtTo = null, long? pullZone = null, long? serverZoneId = null)
         {
             Uri requestUri = new Uri( GetPath("statistics") );
