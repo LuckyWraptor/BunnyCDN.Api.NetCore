@@ -77,7 +77,11 @@ namespace BunnyCDN.Api
             }
         }
 
-
+        /// <summary>
+        /// Delete a StorageZone
+        /// </summary>
+        /// <param name="zoneId">Storage zone Identifier</param>
+        /// <returns>Succes, throws if unauthorized</returns>
         public async Task<bool> DeleteStorageZone(long zoneId)
         {
             if (zoneId <= 0)
