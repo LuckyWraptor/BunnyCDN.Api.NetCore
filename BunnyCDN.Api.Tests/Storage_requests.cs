@@ -88,7 +88,7 @@ namespace BunnyCDN.Api.Tests
         {
             BunnyBadRequestException exception = await Assert.ThrowsAsync<BunnyBadRequestException>( async() => {await storage.GetFolder(path);} );
 
-            Assert.Equal("No response error provided.", exception.Message);
+            Assert.Equal("Invalid response error provided.", exception.Message);
         }
 
         [Theory]

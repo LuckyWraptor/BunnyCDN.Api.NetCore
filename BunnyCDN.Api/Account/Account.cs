@@ -51,18 +51,7 @@ namespace BunnyCDN.Api
             switch(httpResponse.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    string jsonString = await httpResponse.Content.ReadAsStringAsync();
-
-                    BillingSummary summary;
-                    try {
-                        summary = JsonConvert.DeserializeObject<BillingSummary>(jsonString);
-                    } catch (JsonException) {
-                        throw new BunnyInvalidResponseException();
-                    }
-                    
-                    if (summary == null)
-                        throw new BunnyInvalidResponseException();
-                    return summary;
+                    return await JsonWrapper.Deserialize<BillingSummary>(httpResponse);
                 case HttpStatusCode.Unauthorized:
                     throw new BunnyUnauthorizedException();
                 default:
@@ -132,18 +121,7 @@ namespace BunnyCDN.Api
             switch (httpResponse.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    string jsonString = await httpResponse.Content.ReadAsStringAsync();
-
-                    StatisticSummary summary;
-                    try {
-                        summary = JsonConvert.DeserializeObject<StatisticSummary>(jsonString);
-                    } catch (JsonException) {
-                        throw new BunnyInvalidResponseException();
-                    }
-
-                    if (summary == null)
-                        throw new BunnyInvalidResponseException();
-                    return summary;
+                    return await JsonWrapper.Deserialize<StatisticSummary>(httpResponse);
                 case HttpStatusCode.Unauthorized:
                     throw new BunnyUnauthorizedException();
                 default:
