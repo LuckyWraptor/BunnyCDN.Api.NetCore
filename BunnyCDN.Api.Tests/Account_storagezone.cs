@@ -127,7 +127,7 @@ namespace BunnyCDN.Api.Tests
         {
             // Arrange
             MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
-            mockHttp.When(HttpMethod.Post, "*/storagezone/123").Respond(HttpStatusCode.OK);
+            mockHttp.When(HttpMethod.Delete, "*/storagezone/123").Respond(HttpStatusCode.OK);
 
             AccountKey accKey = new AccountKey();
             accKey.SetToken("17989543-2154-6867-3566-71474693165007735103-0594-4591-2132-259238857481", mockHttp);
@@ -146,7 +146,7 @@ namespace BunnyCDN.Api.Tests
         {
             // Arrange
             MockHttpMessageHandler mockHttp = MockTools.GetNewMockHandler();
-            mockHttp.When(HttpMethod.Post, "*/storagezone/*").Respond(HttpStatusCode.OK);
+            mockHttp.When(HttpMethod.Delete, "*/storagezone/*").Respond(HttpStatusCode.OK);
 
             AccountKey accKey = new AccountKey();
             accKey.SetToken("17989543-2154-6867-3566-71474693165007735103-0594-4591-2132-259238857481", mockHttp);
