@@ -22,18 +22,7 @@ namespace BunnyCDN.Api
             switch(httpResponse.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    string jsonString = await httpResponse.Content.ReadAsStringAsync();
-
-                    StorageZone[] summary;
-                    try {
-                        summary = JsonConvert.DeserializeObject<StorageZone[]>(jsonString);
-                    } catch (JsonException) {
-                        throw new BunnyInvalidResponseException();
-                    }
-                    
-                    if (summary == null)
-                        throw new BunnyInvalidResponseException();
-                    return summary;
+                        return await JsonWrapper.Deserialize<StorageZone[]>(httpResponse);
                 case HttpStatusCode.Unauthorized:
                     throw new BunnyUnauthorizedException();
                 default:
@@ -57,18 +46,7 @@ namespace BunnyCDN.Api
                 switch(httpResponse.StatusCode)
                 {
                     case HttpStatusCode.Created:
-                        string jsonString = await httpResponse.Content.ReadAsStringAsync();
-
-                        StorageZone storageZone;
-                        try {
-                            storageZone = JsonConvert.DeserializeObject<StorageZone>(jsonString);
-                        } catch (JsonException) {
-                            throw new BunnyInvalidResponseException();
-                        }
-                        
-                        if (storageZone == null)
-                            throw new BunnyInvalidResponseException();
-                        return storageZone;
+                        return await JsonWrapper.Deserialize<StorageZone>(httpResponse);
                     case HttpStatusCode.Unauthorized:
                         throw new BunnyUnauthorizedException();
                     default:
@@ -91,7 +69,7 @@ namespace BunnyCDN.Api
             switch(httpResponse.StatusCode)
             {
                 case HttpStatusCode.OK:
-                return true;
+                    return true;
                 case HttpStatusCode.Unauthorized:
                     throw new BunnyUnauthorizedException();
                 default:
