@@ -93,30 +93,16 @@ namespace BunnyCDN.Api
             }
 
             HttpResponseMessage httpResponse = await this.StorageKey.Client.GetAsync( GetPath(path) ); 
-            StorageEntry[] storageEntries;
-            string jsonString;
             switch (httpResponse.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    jsonString = await httpResponse.Content.ReadAsStringAsync();
-
-                    
-                    try {
-                        storageEntries = JsonConvert.DeserializeObject<StorageEntry[]>(jsonString);
-                        if (storageEntries == null)
-                            throw new BunnyInvalidResponseException();
-                    } catch(JsonException) {
-                        throw new BunnyInvalidResponseException();
-                    }
-                    break;
+                    return await JsonWrapper.Deserialize<StorageEntry[]>(httpResponse);
                 case HttpStatusCode.BadRequest:
-                    jsonString = await httpResponse.Content.ReadAsStringAsync();
-                    
                     try {
-                        ErrorMessage error = JsonConvert.DeserializeObject<ErrorMessage>(jsonString);
-                        if (error != null && error.Message != null)
+                        ErrorMessage error = await JsonWrapper.Deserialize<ErrorMessage>(httpResponse);
+                        if (error != null && !string.IsNullOrWhiteSpace(error.Message))
                             throw new BunnyBadRequestException(error.Message);
-                    } catch (JsonException) {
+                    } catch (BunnyInvalidResponseException) {
                         throw new BunnyBadRequestException("Invalid response error provided.");
                     }
 
@@ -128,8 +114,6 @@ namespace BunnyCDN.Api
                 default:
                     throw new BunnyInvalidResponseException("Unexpected/unhandled response retrieved");
             }
-
-            return storageEntries;
         }
 
         /// <summary>
