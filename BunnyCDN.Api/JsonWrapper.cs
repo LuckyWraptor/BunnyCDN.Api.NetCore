@@ -11,6 +11,12 @@ namespace BunnyCDN.Api
 {
     public class JsonWrapper
     {
+        /// <summary>
+        /// Deserializes an response object to the desired class, re
+        /// </summary>
+        /// <param name="httpResponse"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static async Task<T> Deserialize<T>(HttpResponseMessage httpResponse)
         {
             if (!isJsonContent(httpResponse))
@@ -28,6 +34,18 @@ namespace BunnyCDN.Api
                 throw new BunnyInvalidResponseException();
 
             return deserialized;
+        }
+
+        /// <summary>
+        /// Serializes an object using the JsonConvert Serializer
+        /// </summary>
+        /// <param name="any">Any object to serialize</param>
+        /// <returns>A JSON string of the serialized object</returns>
+        public static string Serialize(object any)
+        {
+            if (any == null)
+                return "{}";
+            return JsonConvert.SerializeObject(any);
         }
 
         private static bool isJsonContent(HttpResponseMessage httpResponse)
