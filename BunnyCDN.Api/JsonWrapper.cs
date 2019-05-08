@@ -45,7 +45,11 @@ namespace BunnyCDN.Api
         {
             if (any == null)
                 return "{}";
-            return JsonConvert.SerializeObject(any);
+            try {
+                return JsonConvert.SerializeObject(any);
+            } catch (JsonException) {
+                throw new BunnyInvalidRequestException();
+            }
         }
 
         private static bool isJsonContent(HttpResponseMessage httpResponse)
