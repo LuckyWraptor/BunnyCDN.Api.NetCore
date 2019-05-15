@@ -45,13 +45,20 @@ namespace BunnyCDN.Api
         /// <summary>
         /// Error massage response content.
         /// </summary>
-        public ErrorMessage Error { get; set; }
+        public ErrorMessage Error { get; private set; }
         /// <summary>
         /// Bad Request exception used for input faults.
         /// </summary>
         /// <param name="message">Error message for base</param>
         /// <returns>A BunnyCDN BadRequest exception</returns>
         public BunnyBadRequestException(string message) : base(message) {}
+        /// <summary>
+        /// Error massage response content.
+        /// </summary>
+        /// <param name="error">Error message context</param>
+        public BunnyBadRequestException(ErrorMessage error) {
+            this.Error = error;
+        }
     }
     public class BunnyInvalidResponseException : BunnyException
     {
