@@ -56,7 +56,7 @@ namespace BunnyCDN.Api
         /// Error massage response content.
         /// </summary>
         /// <param name="error">Error message context</param>
-        public BunnyBadRequestException(ErrorMessage error) {
+        public BunnyBadRequestException(ErrorMessage error) : base(error.Message) {
             this.Error = error;
         }
     }
