@@ -43,6 +43,10 @@ namespace BunnyCDN.Api
     public class BunnyBadRequestException : BunnyException
     {
         /// <summary>
+        /// Error massage response content.
+        /// </summary>
+        public ErrorMessage Error { get; set; }
+        /// <summary>
         /// Bad Request exception used for input faults.
         /// </summary>
         /// <param name="message">Error message for base</param>
