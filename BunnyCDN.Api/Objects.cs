@@ -71,8 +71,34 @@ namespace BunnyCDN.Api
         public BillingType Type { get; set; }
     }
 
+    public class EdgeRule
+    {
+        public Guid Guid { get; set; }
+        public int ActionType { get; set; }
+        public string ActionParameter1 { get; set; }
+        public string ActionParameter2 { get; set; }
+        public EdgeRuleTrigger[] Triggers { get; set; }
+        public int TriggerMatchingType { get; set; }
+        public string Description { get; set; }
+        public bool Enabled { get; set; }
+    }
+    public class EdgeRuleTrigger
+    {
+        public int Type { get; set; }
+        public string[] PatternMatches { get; set; }
+        public int PatternMatchingType { get; set; }
+        public string Parameter1 { get; set; }
+    }
     public class ErrorMessage
     {
+        /// <summary>
+        /// Invalid field name
+        /// </summary>
+        public string Field { get; set; }
+        /// <summary>
+        /// ErrorKey string
+        /// </summary>
+        public string ErrorKey { get; set; }
         /// <summary>
         /// Http StatusCode (Always the same as the HTTP response StatusCode)
         /// </summary>
@@ -293,7 +319,7 @@ namespace BunnyCDN.Api
         /// <summary>
         /// A list of edge rules for the pullzone
         /// </summary>
-        public string[] EdgeRules { get; set; }
+        public EdgeRule[] EdgeRules { get; set; }
         /// <summary>
         /// Set to true if the WebP vary feature should be enabled
         /// </summary>
@@ -376,7 +402,6 @@ namespace BunnyCDN.Api
         /// </summary>
         public Dictionary<DateTime, double> Error5xxChart { get; set; }
     }
-
     public class StorageEntry
     {
         /// <summary>
@@ -430,7 +455,6 @@ namespace BunnyCDN.Api
         /// </summary>
         public long StorageZoneId { get; set; }
     }
-
     public class StorageZone
     {
         /// <summary>
