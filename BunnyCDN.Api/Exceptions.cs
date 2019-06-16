@@ -2,6 +2,9 @@ using System;
 
 namespace BunnyCDN.Api
 {
+    /// <summary>
+    /// Generic BunnyException to catch all (handled) wrapper errors.
+    /// </summary>
     public class BunnyException : Exception 
     {
         /// <summary>
@@ -11,6 +14,9 @@ namespace BunnyCDN.Api
         /// <returns>A BunnyCDN exception</returns>
         public BunnyException(string message = null) : base(message) { }
     }
+    /// <summary>
+    /// Token BunnyException to catch token errors.
+    /// </summary>
     public class BunnyTokenException : BunnyException
     {
         /// <summary>
@@ -37,9 +43,21 @@ namespace BunnyCDN.Api
             this.Token = token;
         } 
     }
+    /// <summary>
+    /// Zone BunnyException to catch Zone errors.
+    /// </summary>
     public class BunnyZoneException : BunnyException { }
+    /// <summary>
+    ///  NotFound BunnyException to catch api 404 responses.
+    /// </summary>
     public class BunnyNotFoundException : BunnyException { }
+    /// <summary>
+    /// Unauthorized BunnyException to catch unauthorized requests.
+    /// </summary>
     public class BunnyUnauthorizedException : BunnyException { }
+    /// <summary>
+    /// BadRequest BunnyException to catch bad requests
+    /// </summary>
     public class BunnyBadRequestException : BunnyException
     {
         /// <summary>
@@ -60,6 +78,9 @@ namespace BunnyCDN.Api
             this.Error = error;
         }
     }
+    /// <summary>
+    /// InvalidResponse BunnyException to catch invalid http responses.
+    /// </summary>
     public class BunnyInvalidResponseException : BunnyException
     {
         /// <summary>
@@ -74,6 +95,9 @@ namespace BunnyCDN.Api
         /// <returns>A BunnyCDN InvalidResponse exception</returns>
         public BunnyInvalidResponseException(string message) : base(message) {}
     }
+    /// <summary>
+    /// InvalidRequest BunnyException to catch invalid http requests.
+    /// </summary>
     public class BunnyInvalidRequestException : BunnyException
     {
         /// <summary>

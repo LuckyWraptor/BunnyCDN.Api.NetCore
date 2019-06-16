@@ -7,6 +7,9 @@ using BunnyCDN.Api.Internals;
 
 namespace BunnyCDN.Api
 {
+    /// <summary>
+    /// Storage API endpoint interface
+    /// </summary>
     public class Storage
     {
         /// <summary>
@@ -22,7 +25,7 @@ namespace BunnyCDN.Api
         /// <summary>
         /// Storage API interface
         /// </summary>
-        /// <param name="key">StorageKey token-provider</param>
+        /// <param name="sKey">StorageKey token-provider</param>
         /// <param name="zone">Zone name for the desired node</param>
         public Storage(StorageKey sKey, string zone)
         {

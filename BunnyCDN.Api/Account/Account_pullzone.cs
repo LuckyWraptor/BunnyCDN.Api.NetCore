@@ -30,6 +30,13 @@ namespace BunnyCDN.Api
             }
         }
 
+        /// <summary>
+        /// Create a new PullZone pointing to an origin or a StorageZone
+        /// </summary>
+        /// <param name="name">Name of the new PullZone</param>
+        /// <param name="originUrl">Origin url to pull data from</param>
+        /// <param name="storageZoneId">Storage Zone identifier (If using StorageZone)</param>
+        /// <returns>The added PullZone</returns>
         public async Task<PullZone> AddPullZone(string name, string originUrl, long? storageZoneId)
         {
             if (!Regexes.PullZoneName.IsMatch(name))

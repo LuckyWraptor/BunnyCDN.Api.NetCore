@@ -8,6 +8,9 @@ using BunnyCDN.Api.Internals;
 
 namespace BunnyCDN.Api
 {
+    /// <summary>
+    /// Account API interface
+    /// </summary>
     public partial class Account
     {
         /// <summary>

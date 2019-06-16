@@ -3,7 +3,10 @@ using System.Web;
 
 namespace BunnyCDN.Api.Internals
 {
-    // Credits: https://stackoverflow.com/a/19679135
+    /// <summary>
+    /// Url Extensions class.
+    /// Credits: https://stackoverflow.com/a/19679135
+    /// </summary>
     public static class UriExtensions
     {
         /// <summary>

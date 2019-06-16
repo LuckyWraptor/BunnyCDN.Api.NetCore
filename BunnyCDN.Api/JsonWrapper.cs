@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 
 namespace BunnyCDN.Api
 {
+    /// <summary>
+    /// A simple JSON.Net wrapper for easy async Bunny handling
+    /// </summary>
     public class JsonWrapper
     {
         /// <summary>

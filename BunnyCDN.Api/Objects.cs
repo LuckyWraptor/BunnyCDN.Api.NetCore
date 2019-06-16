@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace BunnyCDN.Api
 {
+    /// <summary>
+    /// Billing summary object
+    /// </summary>
     public class BillingSummary
     {
         /// <summary>
@@ -38,6 +41,9 @@ namespace BunnyCDN.Api
         /// </summary>
         public double MonthlyChargesSATraffic { get; set; }
     }
+    /// <summary>
+    /// Billing record object
+    /// </summary>
     public class BillingRecord
     {
         /// <summary>
@@ -71,24 +77,73 @@ namespace BunnyCDN.Api
         public BillingType Type { get; set; }
     }
 
+    /// <summary>
+    /// Edge rule interfacing object
+    /// </summary>
     public class EdgeRule
     {
+        /// <summary>
+        /// Edge Rule identifier
+        /// </summary>
         public Guid Guid { get; set; }
+        /// <summary>
+        /// The action type of the edge rule
+        /// </summary>
         public int ActionType { get; set; }
+        /// <summary>
+        /// The action parameter 1 of the edge rule
+        /// </summary>
         public string ActionParameter1 { get; set; }
+        /// <summary>
+        /// The action parameter 2 of the edge rule
+        /// </summary>
         public string ActionParameter2 { get; set; }
+        /// <summary>
+        /// Triggers of the Rule
+        /// </summary>
         public EdgeRuleTrigger[] Triggers { get; set; }
+        /// <summary>
+        /// The trigger matching type
+        /// </summary>
         public int TriggerMatchingType { get; set; }
+        /// <summary>
+        /// The description of the edge rule
+        /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// Enabled status of the rule
+        /// </summary>
         public bool Enabled { get; set; }
     }
+    /// <summary>
+    /// Edge rule trigger object
+    /// </summary>
     public class EdgeRuleTrigger
     {
+        /// <summary>
+        /// (Read only) The GUID of the edge rule.
+        /// </summary>
+        public string Guid { get; set; }
+        /// <summary>
+        /// The type of the trigger
+        /// </summary>
         public int Type { get; set; }
+        /// <summary>
+        /// Pattern matching array
+        /// </summary>
         public string[] PatternMatches { get; set; }
+        /// <summary>
+        /// The trigger matching type
+        /// </summary>
         public int PatternMatchingType { get; set; }
+        /// <summary>
+        /// The parameter 1 of the trigger
+        /// </summary>
         public string Parameter1 { get; set; }
     }
+    /// <summary>
+    /// Error-message response object
+    /// </summary>
     public class ErrorMessage
     {
         /// <summary>
@@ -108,7 +163,9 @@ namespace BunnyCDN.Api
         /// </summary>
         public string Message { get; set; }
     }
-
+    /// <summary>
+    /// Hostname interfacing object
+    /// </summary>
     public class Hostname
     {
         /// <summary>
@@ -132,12 +189,19 @@ namespace BunnyCDN.Api
         /// </summary>
         public bool HasCertificate { get; set; }
 
+        /// <summary>
+        /// Returns the Hostname value
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return Value;
         }
     }
 
+    /// <summary>
+    /// Pullzone interfacing object
+    /// </summary>
     public class PullZone
     {
         /// <summary>
@@ -165,7 +229,7 @@ namespace BunnyCDN.Api
         /// </summary>
         public Hostname[] Hostnames { get; set; }
         /// <summary>
-        /// The ID of the storage zone that the pull zone is linked to. If the value is < 1, it means the zone is not connected to a storage zone.
+        /// The ID of the storage zone that the pull zone is linked to. If the value is less than    1, it means the zone is not connected to a storage zone.
         /// </summary>
         public long StorageZoneId { get; set; }
         /// <summary>
@@ -342,6 +406,9 @@ namespace BunnyCDN.Api
         public string CnameDomain { get; set; }
     }
 
+    /// <summary>
+    /// StatisticSummary object
+    /// </summary>
     public class StatisticSummary
     {
         /// <summary>
@@ -402,6 +469,9 @@ namespace BunnyCDN.Api
         /// </summary>
         public Dictionary<DateTime, double> Error5xxChart { get; set; }
     }
+    /// <summary>
+    /// StorageEntry interfacing object
+    /// </summary>
     public class StorageEntry
     {
         /// <summary>
@@ -455,7 +525,10 @@ namespace BunnyCDN.Api
         /// </summary>
         public long StorageZoneId { get; set; }
     }
-    public class StorageZone
+    /// <summary>
+    /// StorageZone interfacing object
+    /// </summary>
+   public class StorageZone
     {
         /// <summary>
         /// The unique ID of the storage zone
@@ -490,6 +563,10 @@ namespace BunnyCDN.Api
         /// he amount of storage used by the storage zone in bytes
         /// </summary>
         public long StorageUsed { get; set; }
+        /// <summary>
+        /// Corresponding pullzones list 
+        /// </summary>
+        /// <value></value>
         public PullZone[] PullZones { get; set; }
         /// <summary>
         /// True if the storage is deleted

@@ -5,6 +5,9 @@ using BunnyCDN.Api.Internals;
 
 namespace BunnyCDN.Api
 {
+    /// <summary>
+    /// AccessKey for API authorization and request handling.
+    /// </summary>
     public class AccessKey : IDisposable
     {
         /// <summary>
@@ -36,6 +39,7 @@ namespace BunnyCDN.Api
         /// Sets the token for the key provider
         /// </summary>
         /// <param name="apiKey">API Token</param>
+        /// <param name="httpMessageHandler">The HttpMessageHandler instance to handle the token requests</param>
         public void SetToken(string apiKey, HttpMessageHandler httpMessageHandler = null)
         {
             this.Token = apiKey;
@@ -62,6 +66,9 @@ namespace BunnyCDN.Api
         }
     }
 
+    /// <summary>
+    /// AccountKey for Account-specific API authorization and request handling.
+    /// </summary>
     public class AccountKey : AccessKey
     {
         /// <summary>
@@ -80,6 +87,9 @@ namespace BunnyCDN.Api
         }
     }
 
+    /// <summary>
+    /// StorageKey for Storage-specific API authorization and request handling.
+    /// </summary>
     public class StorageKey : AccessKey
     {
         /// <summary>
