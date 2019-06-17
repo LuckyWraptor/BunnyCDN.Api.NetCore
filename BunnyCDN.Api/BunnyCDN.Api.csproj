@@ -1,12 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Version>0.0.2</Version>
+
+    <Authors>FlyingWraptor</Authors>
+    <Description>A .NET Core 2.2 BunnyCDN API interface package.</Description>
+    <PackageId>BunnyCDN.Api.NetCore</PackageId>
+    <PackageTags>BunnyCDN API async netcoreapp2</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/FlyingWraptor/BunnyCDN.Api.NetCore</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
-
 
 </Project>
