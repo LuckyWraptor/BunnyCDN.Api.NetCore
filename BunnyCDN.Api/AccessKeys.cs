@@ -47,10 +47,14 @@ namespace BunnyCDN.Api
             HttpClient httpClient;
             if (httpMessageHandler != null)
                 httpClient = new HttpClient(httpMessageHandler);
-            else
-                httpClient = new HttpClient();
+            else {
+                httpClient = new HttpClient(new HttpClientHandler {
+                    AutomaticDecompression = System.Net.DecompressionMethods.GZip
+                });
 
+            }
 
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Encoding", "gzip");
             httpClient.DefaultRequestHeaders.Add("AccessKey", this.Token);
             this.Client = httpClient;
         }
