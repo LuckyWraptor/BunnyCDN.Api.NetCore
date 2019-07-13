@@ -8,10 +8,11 @@ using BunnyCDN.Api.Internals;
 
 namespace BunnyCDN.Api
 {
+
     /// <summary>
     /// Account API interface
     /// </summary>
-    public partial class Account
+    public partial class Account : AccountInterface
     {
         /// <summary>
         /// AccountKey, used to retrieve the required HttpClient
@@ -136,6 +137,6 @@ namespace BunnyCDN.Api
         /// </summary>
         /// <param name="path">Input path</param>
         /// <returns>A valid URL for API calls</returns>
-        internal string GetPath(string path) => $"{Variables.BaseApiUrl}{path}";
+        private string GetPath(string path) => $"{Variables.BaseApiUrl}{path}";
     }
 }
