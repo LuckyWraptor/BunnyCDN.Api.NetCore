@@ -8,7 +8,7 @@ install:
 jobs:
   include:
     - stage: build
-      script: dotnet build --project BunnyCDN.Api
+      script: dotnet build
     - stage: test
       script: dotnet test
     - stage: pack-nuget
