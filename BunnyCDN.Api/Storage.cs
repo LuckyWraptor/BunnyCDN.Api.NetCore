@@ -8,19 +8,36 @@ using BunnyCDN.Api.Internals;
 namespace BunnyCDN.Api
 {
     /// <summary>
+    /// Storage class interface
+    /// </summary>
+    public interface StorageInterface
+    {
+        string Zone { get; }
+        
+        Task<byte[]> GetFile(string path);
+        Task<StorageEntry[]> GetFolder(string path);
+        Task<bool> Put(byte[] fileContent, string path);
+        Task<bool> Delete(string path);
+    }
+
+    /// <summary>
     /// Storage API endpoint interface
     /// </summary>
-    public class Storage
+    public class Storage : StorageInterface
     {
         /// <summary>
         /// Storagezone name set for the desired node
         /// </summary>
         /// <value>Storage zone name</value>
-        public string Zone { get; protected set; }
+        public string Zone { get { return _zone; } }
         /// <summary>
         /// StorageKey, used to retrieve the required HttpClient
         /// </summary>
         private readonly StorageKey StorageKey;
+        /// <summary>
+        /// The internal zone string
+        /// </summary>
+        private readonly string _zone;
 
         /// <summary>
         /// Storage API interface
@@ -36,7 +53,7 @@ namespace BunnyCDN.Api
                 throw new BunnyZoneException();
 
             this.StorageKey = sKey;
-            this.Zone = zone;
+            this._zone = zone;
         }
 
         /// <summary>
@@ -53,7 +70,7 @@ namespace BunnyCDN.Api
                 throw new BunnyZoneException();
 
             this.StorageKey = new StorageKey(storageToken);
-            this.Zone = zone;
+            this._zone = zone;
         }
 
         /// <summary>
@@ -164,6 +181,6 @@ namespace BunnyCDN.Api
         /// </summary>
         /// <param name="path">Input path</param>
         /// <returns>A valid URL for API calls</returns>
-        internal string GetPath(string path) => $"{Variables.StorageUrl}{this.Zone}/{path}";
+        private string GetPath(string path) => $"{Variables.StorageUrl}{this.Zone}/{path}";
     }
 }
