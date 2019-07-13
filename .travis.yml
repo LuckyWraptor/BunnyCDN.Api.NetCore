@@ -1,0 +1,18 @@
+language: csharp
+mono: none
+dotnet: 2.2.301
+install:
+ - dotnet restore
+
+jobs:
+  include:
+    - stage: build
+      script: dotnet build --project BunnyCDN.Api
+    - stage: test
+      script: dotnet test
+    - stage: pack-nuget
+      script:
+        - cd ./BunnyCDN.Api
+        - dotnet pack
+        - dotnet nuget push "./bin/Debug/*.nupkg" -k "$NUGET_KEY" -s "https://api.nuget.org/v3/index.json"
+      if: tag =~ ^v*.*.*$
